@@ -1,6 +1,6 @@
 package com.example.a1893068.classactivity1;
-package com.example.a1893068.a1893068classactivity1;
 
+implementation 'com.android.support:design:28.0.0'
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +15,7 @@ public class classactivity1 extends AppCompatActivity {
 
     EditText edt_Fname,edt_Lname,edt_email,edt_pass ;
     Button btn_sub;
-    String TAG="click submit";
+    String TAG="click submiti";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class classactivity1 extends AppCompatActivity {
 
     EditText edt_Fname,edt_Lname,edt_email,edt_pass ;
     Button btn_sub;
@@ -19,14 +19,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_classactivity1);
 
-        edt_Fname=findViewById(R.id.FName);
-        edt_Lname=findViewById(R.id.LName);
-        edt_email=findViewById(R.id.eMail);
-        edt_pass=findViewById(R.id.password);
+        edt_Fname=findViewById(R.id.fname);
+        edt_Lname=findViewById(R.id.lname);
+        edt_email=findViewById(R.id.iemail);
+        edt_pass=findViewById(R.id.passi);
 
-        btn_sub=findViewById(R.id.Submit);
+        btn_sub=findViewById(R.id.submiti);
 
         final Toast mytoast=Toast.makeText(getApplicationContext(),edt_Fname.getText().toString(),Toast.LENGTH_SHORT);
 
@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // Toast.makeText(getApplicationContext(),edt_name.getText().toString(),Toast.LENGTH_LONG).show();
-                mytoast.setText("Surya Teja! Thank You");
+                mytoast.setText("Karan verma Thank You");
                 mytoast.setDuration(Toast.LENGTH_LONG);
 
                 mytoast.show();
-                Snackbar.make(v, "Registration is Done", Snackbar.LENGTH_LONG)
+                Snackbar.make(v, "Registrationn Done", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
             }

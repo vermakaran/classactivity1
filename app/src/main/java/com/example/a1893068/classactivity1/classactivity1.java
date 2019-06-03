@@ -1,6 +1,6 @@
 package com.example.a1893068.classactivity1;
 
-implementation 'com.android.support:design:28.0.0'
+
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;

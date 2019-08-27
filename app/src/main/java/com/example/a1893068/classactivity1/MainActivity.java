@@ -1,100 +1,106 @@
-package com.example.a1893068.classactivity1;
+package com.example.harsh.pokerecycledemo;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.navigation.NavigationView;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import com.example.a1893068.classactivity1.Pokemon;
 
-    public Toolbar toolbar;
-    public DrawerLayout drawerLayout;
-    public NavController navController;
-    public NavigationView navigationView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
+public class MainActivity extends AppCompatActivity {
+
+
+    Pokemonadapter adapter;
+    ArrayList<Pokemon> pokelst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setupNavigation();
+
+        pokelst = new ArrayList<>();
+
+        String link = "https://next.json-generator.com/api/json/get/E14trR2lD";
+
+        try {
+
+
+            // progs.setVisibility(View.VISIBLE);
+            String data = new Asycdata(MainActivity.this).execute(link).get();
+            System.out.println("This is from Main Activity :" + data);
+
+
+            JSONObject mainobj = new JSONObject(data);
+            JSONArray pokearray = mainobj.getJSONArray("Pokemon");
+
+            for (int i = 0; i < pokearray.length(); i++) {
+                JSONObject child = pokearray.getJSONObject(i);
+
+                String img = child.getString("image");
+                String name = child.getString("name");
+                String type = child.getString("type");
+                String ability = child.getString("ability");
+                String height = child.getString("height");
+                String weight = child.getString("weight");
+                String desc = child.getString("description");
+
+                String keyname = child.toString();
+
+
+                pokelst.add(new Pokemon(name, img, type, ability, height, weight, desc));
+            }
+
+
+            adapter = new Pokemonadapter(pokelst,getApplicationContext());
+
+            intiPokemonView();
+
+
+        }catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public void setupNavigation()
+
+    public void intiPokemonView()
     {
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-        drawerLayout = findViewById(R.id.drawer_layout);
-
-        navigationView = findViewById(R.id.navigationView);
-
-        navController = Navigation.findNavController(this,R.id.host_fragment);
-
-        NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout);
-
-        NavigationUI.setupWithNavController(navigationView,navController);
-
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
-        {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
-            super.onBackPressed();
-        }
+        @SuppressLint("WrongConstant") LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        RecyclerView recyclerView = findViewById(R.id.recycle_poke);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(onItemClickListenerwish);
     }
 
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        return NavigationUI.navigateUp(Navigation.findNavController(this,R.id.host_fragment),drawerLayout);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-        menuItem.setCheckable(true);
-
-        drawerLayout.closeDrawers();
-
-        int id = menuItem.getItemId();
+    private View.OnClickListener onItemClickListenerwish = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
 
 
-        switch (id)
-        {
-            case R.id.first:
-                Toast.makeText(getApplicationContext(),"First Clicked!", Toast.LENGTH_SHORT).show();
-                navController.navigate(R.id.firstFragment);
-                break;
-            case R.id.second:
-                navController.navigate(R.id.secondFragment);
-                break;
-            case R.id.third:
-                navController.navigate(R.id.thirdFragment);
-                break;
+            /*RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
+            int position = viewHolder.getAdapterPosition();
+*/
+
+            Toast.makeText(getApplicationContext(),"Done!",Toast.LENGTH_SHORT).show();
 
         }
-
-
-        return true;
-    }
-
+    };
 }
